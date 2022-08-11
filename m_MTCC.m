@@ -1,39 +1,39 @@
 clear;
 close all;
 clc;
-M = 378;  % M ±íÊ¾Ñù±¾£¨²âÊÔ£©µÄÀà±ğÊı
-N = 20;   % N ±íÊ¾Ã¿ÀàÑù±¾µÄÑù±¾¸öÊı
-gb = Np_Gabor(8,6); %¹¹Ôì6¸ö·½ÏòµÄgaborÂË²¨Æ÷
+M = 378;  % M è¡¨ç¤ºæ ·æœ¬ï¼ˆæµ‹è¯•ï¼‰çš„ç±»åˆ«æ•°
+N = 20;   % N è¡¨ç¤ºæ¯ç±»æ ·æœ¬çš„æ ·æœ¬ä¸ªæ•°
+gb = Np_Gabor(8,6); %æ„é€ 6ä¸ªæ–¹å‘çš„gaboræ»¤æ³¢å™¨
 
 imgDataPath = 'F:\Code\NEW\PolyU\PolyU_bmp_ind\';
 
 tic
-%%  º¬ÓĞ×ÓÎÄ¼ş¼ĞµÄÍ¼Æ¬¶ÁÈ¡·½·¨
-% imgDataDir  = dir(imgDataPath);          % ±éÀúËùÓĞÎÄ¼ş
+%%  å«æœ‰å­æ–‡ä»¶å¤¹çš„å›¾ç‰‡è¯»å–æ–¹æ³•
+% imgDataDir  = dir(imgDataPath);          % éå†æ‰€æœ‰æ–‡ä»¶
 % k = 1;
 % for i = 1:length(imgDataDir)
-%     if(isequal(imgDataDir(i).name,'.')||... % È¥³ıÏµÍ³×Ô´øµÄÁ½¸öÒşÎÄ¼ş¼Ğ
+%     if(isequal(imgDataDir(i).name,'.')||... % å»é™¤ç³»ç»Ÿè‡ªå¸¦çš„ä¸¤ä¸ªéšæ–‡ä»¶å¤¹
 %        isequal(imgDataDir(i).name,'..')||...
-%        ~imgDataDir(i).isdir)                % È¥³ı±éÀúÖĞ²»ÊÇÎÄ¼ş¼ĞµÄ
+%        ~imgDataDir(i).isdir)                % å»é™¤éå†ä¸­ä¸æ˜¯æ–‡ä»¶å¤¹çš„
 %            continue;
 %     end
 %     imgDir = dir([imgDataPath imgDataDir(i).name '/*.jpg']); 
-%     for j =1:length(imgDir)                 % ±éÀúËùÓĞÍ¼Æ¬
+%     for j =1:length(imgDir)                 % éå†æ‰€æœ‰å›¾ç‰‡
 %         img = imread([imgDataPath imgDataDir(i).name '/' imgDir(j).name]);
 %         im = img(:,:,1);
 %         im = imresize(im,[128 128]);
-%         im = normalize_image(im); % Í¼Ïñ¹éÒ»»¯
+%         im = normalize_image(im); % å›¾åƒå½’ä¸€åŒ–
 %         Bocv_code{1,k} = imBOCVCode(im, gb);
 %         k = k+1;
 %     end    
 % end
 
-%% ²»º¬×ÓÎÄ¼ş¼ĞµÄ¶ÁÈ¡·½·¨
+%% ä¸å«å­æ–‡ä»¶å¤¹çš„è¯»å–æ–¹æ³•
 image_list=dir([imgDataPath '*.bmp']);
 for i=1:length(image_list)
     im_name = image_list(i).name;
     im = imread([imgDataPath im_name]);
-    im = normalize_image(im); % Í¼Ïñ¹éÒ»»¯
+    im = normalize_image(im); % å›¾åƒå½’ä¸€åŒ–
     im = im(:,:,1);
     if size(im,2) ~= 128
         im = imresize(im,[128 128]);
@@ -61,7 +61,7 @@ for index = 1:length(Templates)
    T1_11{index} =  Templates{1,index}{1,11}; T1_12{index} =  Templates{1,index}{1,12};
 end
 %%
-Index = create_palmprintIndex(M, 10, 10); %NÎªÅ¼Êı
+Index = create_palmprintIndex(M, 10, 10); %Nä¸ºå¶æ•°
 palmindex = reshape(Index',M*3,1);
 mex perform_large_novel_structure.cpp
 tic
@@ -113,8 +113,8 @@ tic
 [DisIntra12,DisInter12] = perform_large_novel_structure(T1_12,palmindex);
 toc
 %%
-%% ·ÖÊı¼¶ÈÚºÏ
-% ÀàÄÚº£Ã÷¾àÀë
+%% åˆ†æ•°çº§èåˆ
+% ç±»å†…æµ·æ˜è·ç¦»
 T = 0.5;
 Dis_Texture_Intra = (DisIntra1+DisIntra3+DisIntra5+DisIntra7+DisIntra9+DisIntra11)/6;
 Dis_Texture_Trans_Intra = (DisIntra2+DisIntra4+DisIntra6+DisIntra8+DisIntra10+DisIntra12)/6;
@@ -123,7 +123,7 @@ save DisIntra DisIntra;
 save Dis_Texture_Intra Dis_Texture_Intra;
 save Dis_Texture_Trans_Intra Dis_Texture_Trans_Intra;
 
-% Àà¼äº£Ã÷¾àÀë
+% ç±»é—´æµ·æ˜è·ç¦»
 Dis_Texture_Inter = (DisInter1+DisInter3+DisInter5+DisInter7+DisInter9+DisInter11)/6;
 Dis_Texture_Trans_Inter = (DisInter2+DisInter4+DisInter6+DisInter8+DisInter10+DisInter12)/6;
 DisInter = T *  Dis_Texture_Inter + (1-T) * Dis_Texture_Trans_Inter;
@@ -131,7 +131,7 @@ save DisInter DisInter;
 save Dis_Texture_Inter Dis_Texture_Inter;
 save Dis_Texture_Trans_Inter Dis_Texture_Trans_Inter;
 
-%% »­ÇúÏßÍ¼
+%% ç”»æ›²çº¿å›¾
 [auc,eer] = plot_c(DisIntra, DisInter);
 fprintf('EER: %f\n',eer);
 save eer eer
